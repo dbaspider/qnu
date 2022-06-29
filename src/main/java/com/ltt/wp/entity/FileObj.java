@@ -2,8 +2,11 @@ package com.ltt.wp.entity;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import com.ltt.wp.utils.FileUtils;
 import com.ltt.wp.utils.HashUtils;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
@@ -12,6 +15,8 @@ import java.io.File;
  */
 @Data
 public class FileObj {
+
+    private static Logger log = LoggerFactory.getLogger(FileObj.class);
 
     // 主键
     private Long id;
@@ -46,14 +51,22 @@ public class FileObj {
     // 最后一次上传失败原因
     private String lastError;
 
-    public void populate() {
-        if (StrUtil.isEmpty(orgFilePath)) {
-            throw new RuntimeException("populate error: orgFilePath is empty!");
+    /**
+     * 填充属性
+     * @return boolean
+     */
+    public boolean populate() {
+        if (StrUtil.isEmpty(this.orgFilePath)) {
+            log.error("populate error: orgFilePath is empty!");
+            return false;
         }
 
-        this.md5 = HashUtils.md5File(orgFilePath);
-        this.fileExt = FileUtil.extName(orgFilePath);
-        this.orgFileName = FileUtil.getName(orgFilePath);
+        // populate
+        this.md5 = HashUtils.md5File(this.orgFilePath);
+
+        this.fileExt = FileUtil.extName(this.orgFilePath);
+
+        this.orgFileName = FileUtil.getName(this.orgFilePath);
 
         if (!StrUtil.isEmpty(this.fileExt)) {
             this.cloudFileName = this.md5 + "." + this.fileExt;
@@ -61,6 +74,19 @@ public class FileObj {
             this.cloudFileName = this.md5;
         }
 
-        this.fileSize = FileUtil.size(new File(orgFilePath));
+        this.fileSize = FileUtil.size(new File(this.orgFilePath));
+
+        // check
+        if (StrUtil.isEmpty(this.md5)) {
+            log.error("populate error: md5 failed {}", this.orgFilePath);
+            return false;
+        }
+
+        if (this.fileSize <= 0) {
+            log.error("populate error: fileSize failed {}", this.orgFilePath);
+            return false;
+        }
+
+        return true;
     }
 }

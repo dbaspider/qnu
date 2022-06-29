@@ -1,6 +1,7 @@
 package com.ltt.wp.database;
 
 import cn.hutool.core.io.IoUtil;
+import com.ltt.wp.entity.FileObj;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,5 +68,9 @@ public class DbPool {
         IoUtil.close(statement);
         IoUtil.close(connection);
         log.info("closeDb finish");
+    }
+
+    public static boolean record(FileObj rec) {
+        return true;
     }
 }

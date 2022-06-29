@@ -44,9 +44,12 @@ public class FileUtils {
 
         FileObj obj = new FileObj();
         //obj.setOrgFilePath("G:\\Pictures\\The_Sun_in_high_resolution_pillars.jpg");
-        obj.setOrgFilePath("d:\\post-2016-sunsetglow");
-        obj.populate();
-        System.out.println(obj);
+        obj.setOrgFilePath("d:\\ButtermereSunset.jpg");
+        if (obj.populate()) {
+            System.out.println("populate success: " + obj);
+        } else {
+            System.out.println("populate failure: " + obj);
+        }
     }
 
 }

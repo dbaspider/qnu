@@ -26,8 +26,8 @@ public class Main {
         UploadManager uploadManager = new UploadManager(cfg);
         Auth auth = Auth.create(accessKey, secretKey);
         String token = auth.uploadToken(bucketName);
-        String key = "Background_A.png";
-        String localFile = "D:\\reslib\\Background_A.png";
+        String key = "ButtermereSunset.jpg";
+        String localFile = "D:\\ButtermereSunset.jpg";
 
         System.out.println("upload begin ...");
         long beginTime = System.currentTimeMillis();
@@ -36,7 +36,10 @@ public class Main {
 
         long endTime = System.currentTimeMillis();
         System.out.println("upload finish ... cost " + (endTime - beginTime) + " ms.");
+        System.out.println(resp);
+        System.out.println(resp.url());
         System.out.println(resp.bodyString());
+
 //        String accessKey = "Your AccessKey";
 //        String secretKey = "Your SecretKey";
 //        String bucketName = "upload to bucket";
