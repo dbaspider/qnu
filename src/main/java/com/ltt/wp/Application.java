@@ -38,15 +38,15 @@ public class Application implements CommandLineRunner {
     public void run(String... args) {
         log.info("begin EXECUTING : command line runner");
 
-        // ³õÊ¼»¯²¢´ò¿ªÊı¾İ¿â
+        // åˆå§‹åŒ–å¹¶æ‰“å¼€æ•°æ®åº“
         if (!DbPool.initDb()) {
             return;
         }
 
-        // ÉÏ´«ÎÄ¼ş
+        // ä¸Šä¼ æ–‡ä»¶
         doUpload();
 
-        // ¹Ø±ÕÊı¾İ¿â
+        // å…³é—­æ•°æ®åº“
         DbPool.closeDb();
         log.info("end EXECUTING : command line runner");
     }
@@ -54,7 +54,7 @@ public class Application implements CommandLineRunner {
     private void doUpload() {
         log.info("*** doUpload begin ***");
 
-        // ³õÊ¼»¯ÆßÅ£ÔÆÉÏ´«ÅäÖÃ
+        // åˆå§‹åŒ–ä¸ƒç‰›äº‘ä¸Šä¼ é…ç½®
         Configuration cfg = new Configuration();
         UploadManager uploadManager = new UploadManager(cfg);
         Auth auth = Auth.create(uploadConfig.getAccessKey(), uploadConfig.getSecretKey());
@@ -62,7 +62,7 @@ public class Application implements CommandLineRunner {
 
         log.info("UploadManager init ok");
 
-        // »ñÈ¡±¾´ÎÉÏ´«µÄÎÄ¼şÁĞ±í
+        // è·å–æœ¬æ¬¡ä¸Šä¼ çš„æ–‡ä»¶åˆ—è¡¨
         List<String> listFiles = new ArrayList<>(128);
         FileUtils.listDirectory(uploadConfig.getFileDir(), listFiles);
         log.info("List total files is {}", listFiles.size());
@@ -107,13 +107,13 @@ public class Application implements CommandLineRunner {
 
         }
 
-        // Í³¼ÆÏÂÊ±¼ä
+        // ç»Ÿè®¡ä¸‹æ—¶é—´
         long endTime = System.currentTimeMillis();
         long totalTime = (endTime - beginTime);
         long avgTime = (totalFiles > 0) ? totalTime / totalFiles : 0;
         log.info("upload finish, cost total time {} ms / per file avg {} ms", totalTime, avgTime);
 
-        // »ã×ÜĞÅÏ¢
+        // æ±‡æ€»ä¿¡æ¯
         log.info("Success files: {} / Failed files: {}", succFiles, failFiles);
 
         log.info("*** doUpload end ***");
